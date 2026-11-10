@@ -220,7 +220,7 @@
                 <!-- 結果標頭提示 -->
                 <div class="text-center space-y-2">
                     <h2 class="text-2xl md:text-3xl font-black morandi-title-text">你的哲學靈魂測驗結果</h2>
-                    <p class="text-xs md:text-sm text-[#6D7B86]">長按圖片或點擊下方按鈕即可下載儲存結果圖卡</p>
+                    <p class="text-xs md:text-sm text-[#6D7B86]">長按圖片即可下載儲存結果圖卡</p>
                 </div>
 
                 <!-- 直接完整呈現您提供的結果圖片 -->
@@ -228,12 +228,7 @@
                     <img id="result-image" src="" alt="哲學結果圖卡" class="w-full h-auto block rounded-2xl transition-transform duration-300 group-hover:scale-[1.01]" />
                 </div>
 
-                <!-- 一鍵下載圖片按鈕 -->
-                <div class="max-w-sm mx-auto flex flex-col sm:flex-row gap-3">
-                    <button onclick="downloadResultImage()" class="steampunk-btn flex-1 py-3.5 rounded-xl text-white font-bold text-sm md:text-base flex items-center justify-center gap-2 shadow-lg">
-                        <i class="fa-solid fa-download"></i>📥 下載結果圖片
-                    </button>
-                </div>
+            
 
                 <!-- 雷達圖分析區 -->
                 <div class="space-y-3 pt-2">
@@ -456,35 +451,35 @@
                 cardId: "intro-card-relativism",
                 title: "變色龍",
                 schoolName: "道德文化相對主義",
-                image: "./變色龍.png"
+                image: "image/變色龍.png"
             },
             utilitarianism: {
                 key: "utilitarianism",
                 cardId: "intro-card-utilitarianism",
-                title: "天秤",
+                title: "天平",
                 schoolName: "效益主義",
-                image: "./天平.png"
+                image: "image/天平.png"
             },
             deontology: {
                 key: "deontology",
                 cardId: "intro-card-deontology",
                 title: "北極星",
                 schoolName: "義務論",
-                image: "./北極星.png"
+                image: "image/北極星.png"
             },
             levinas: {
                 key: "levinas",
                 cardId: "intro-card-levinas",
                 title: "斷首的螳螂",
                 schoolName: "列維納斯",
-                image: "./斷首的螳螂.png"
+                image: "image/斷首的螳螂.png"
             },
             virtue: {
                 key: "virtue",
                 cardId: "intro-card-virtue",
                 title: "稻",
                 schoolName: "德性倫理學",
-                image: "./稻.png"
+                image: "image/稻.png"
             }
         };
 
