@@ -456,35 +456,35 @@
                 cardId: "intro-card-relativism",
                 title: "變色龍",
                 schoolName: "道德文化相對主義",
-                image: "./變色龍.jpg"
+                image: "./變色龍.png"
             },
             utilitarianism: {
                 key: "utilitarianism",
                 cardId: "intro-card-utilitarianism",
                 title: "天秤",
                 schoolName: "效益主義",
-                image: "./天平.jpg"
+                image: "./天平.png"
             },
             deontology: {
                 key: "deontology",
                 cardId: "intro-card-deontology",
                 title: "北極星",
                 schoolName: "義務論",
-                image: "./北極星.jpg"
+                image: "./北極星.png"
             },
             levinas: {
                 key: "levinas",
                 cardId: "intro-card-levinas",
                 title: "斷首的螳螂",
                 schoolName: "列維納斯",
-                image: "./斷首的螳螂.jpg"
+                image: "./斷首的螳螂.png"
             },
             virtue: {
                 key: "virtue",
                 cardId: "intro-card-virtue",
                 title: "稻",
                 schoolName: "德性倫理學",
-                image: "./稻.jpg"
+                image: "./稻.png"
             }
         };
 
@@ -593,7 +593,7 @@
             const res = schoolResults[userResultKey];
             const link = document.createElement('a');
             link.href = res.image;
-            link.download = `${res.title}_${res.schoolName}_測驗結果.jpg`;
+            link.download = `${res.title}_${res.schoolName}_測驗結果.png`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
