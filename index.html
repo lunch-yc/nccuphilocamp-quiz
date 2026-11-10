@@ -166,7 +166,7 @@
                 <!-- 開始按鈕 -->
                 <div class="pt-4">
                     <button onclick="startQuiz()" class="steampunk-btn px-10 py-4 rounded-xl text-white font-bold tracking-widest text-base md:text-lg w-full sm:w-auto inline-flex items-center justify-center gap-3">
-                        <span>開始洄游</span>
+                        <span>開始測驗</span>
                         <i class="fa-solid fa-arrow-right text-xs"></i>
                     </button>
                 </div>
@@ -230,23 +230,13 @@
 
             
 
-                <!-- 雷達圖分析區 -->
-                <div class="space-y-3 pt-2">
-                    <h3 class="text-xs font-bold text-[#6D7B86] text-center uppercase tracking-widest flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-chart-pie"></i>五大倫理學學派得分傾向圖譜
-                    </h3>
-                    <div class="w-full h-64 md:h-72 relative bg-white/70 p-3 rounded-xl border border-[#BFCCD4] shadow-inner">
-                        <canvas id="radarChart"></canvas>
-                    </div>
-                </div>
-
                 <!-- 底部動作按鈕區 -->
                 <div class="flex flex-col sm:flex-row gap-4 pt-2">
                     <button onclick="showIntroPage()" class="steampunk-btn flex-1 py-3.5 rounded-xl text-white font-bold text-sm md:text-base flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-book-open"></i>📖 學派介紹
+                        <i class="fa-solid fa-book-open"></i>學派介紹
                     </button>
                     <button onclick="restartQuiz()" class="secondary-btn flex-1 py-3.5 rounded-xl text-[#37434D] font-bold text-sm md:text-base flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-rotate-right"></i>🔄 重新測驗
+                        <i class="fa-solid fa-rotate-right"></i>重新測驗
                     </button>
                 </div>
             </section>
@@ -339,10 +329,10 @@
                 <!-- 導覽雙按鈕 (左: 回上頁, 右: 重新測驗) -->
                 <div class="flex justify-between items-center gap-4 pt-4 border-t border-[#BFCCD4]">
                     <button onclick="backToResult()" class="secondary-btn px-6 py-3 rounded-xl text-[#37434D] font-bold text-xs md:text-sm flex items-center gap-2">
-                        <i class="fa-solid fa-arrow-left"></i>⬅️ 回上頁
+                        <i class="fa-solid fa-arrow-left"></i>回上頁
                     </button>
                     <button onclick="restartQuiz()" class="steampunk-btn px-6 py-3 rounded-xl text-white font-bold text-xs md:text-sm flex items-center gap-2">
-                        🔄 重新測驗<i class="fa-solid fa-rotate-right"></i>
+                        重新測驗<i class="fa-solid fa-rotate-right"></i>
                     </button>
                 </div>
             </section>
@@ -594,60 +584,7 @@
             document.body.removeChild(link);
         }
 
-        /* ==========================================================================
-           5. 莫蘭迪雷達圖繪製 (Chart.js)
-           ========================================================================== */
-        function renderRadarChart() {
-            const ctx = document.getElementById('radarChart').getContext('2d');
-
-            if (radarChartInstance) {
-                radarChartInstance.destroy();
-            }
-
-            radarChartInstance = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: ['德性倫理學', '效益主義', '義務論', '列維納斯', '道德文化相對主義'],
-                    datasets: [{
-                        label: '得分數',
-                        data: [
-                            schoolScores.virtue,
-                            schoolScores.utilitarianism,
-                            schoolScores.deontology,
-                            schoolScores.levinas,
-                            schoolScores.relativism
-                        ],
-                        backgroundColor: 'rgba(159, 181, 195, 0.35)', // #9FB5C3
-                        borderColor: '#6D7B86',                       // #6D7B86
-                        borderWidth: 2,
-                        pointBackgroundColor: '#BFCCD4',              // #BFCCD4
-                        pointBorderColor: '#6D7B86',                  // #6D7B86
-                        pointHoverBackgroundColor: '#FFFFFF',
-                        pointHoverBorderColor: '#6D7B86'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            min: 0,
-                            max: 7,
-                            ticks: { display: false, stepSize: 1 },
-                            angleLines: { color: 'rgba(138, 157, 168, 0.4)' },
-                            grid: { color: 'rgba(214, 221, 217, 0.6)' },
-                            pointLabels: {
-                                color: '#4A5761',
-                                font: { size: 12, family: 'Noto Serif TC', weight: 'bold' }
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false }
-                    }
-                }
-            });
-        }
+      
 
         /* ==========================================================================
            6. 學派介紹頁與導覽
