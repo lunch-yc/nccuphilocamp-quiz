@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eureka靈魂器物誌 - 測出你的哲學靈魂</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts 繁體中文與經典字型 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js 雷達圖圖表庫 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            /* 莫蘭迪主色票 (Morandi Colours) */
+            --morandi-1: #D6DDD9; /* 柔和淺綠灰 */
+            --morandi-2: #BFCCD4; /* 冰川淺藍灰 */
+            --morandi-3: #9FB5C3; /* 柔霧藍灰 */
+            --morandi-4: #8A9DA8; /* 中度板岩灰 */
+            --morandi-5: #6D7B86; /* 深莫蘭迪藍灰 */
+            
+            --morandi-text-dark: #37434D;
+            --morandi-text-muted: #5C6A75;
+            --morandi-bg-gradient: linear-gradient(135deg, #F5F7F8 0%, #EDF1F3 40%, #E2E8EC 75%, #D6DDD9 100%);
+
+            --font-serif: 'Noto Serif TC', serif;
+            --font-sans: 'Noto Sans TC', sans-serif;
+            --font-cinzel: 'Cinzel', serif;
+        }
+
+        body {
+            font-family: var(--font-serif);
+            background: var(--morandi-bg-gradient);
+            background-attachment: fixed;
+            color: var(--morandi-text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 莫蘭迪高質感玻璃霧面面板 */
+        .morandi-panel {
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid var(--morandi-3);
+            box-shadow: 0 15px 35px rgba(109, 123, 134, 0.14), inset 0 0 25px rgba(214, 221, 217, 0.5);
+            backdrop-filter: blur(14px);
+            border-radius: 20px;
+        }
+
+        /* 莫蘭迪深階漸層標題 */
+        .morandi-title-text {
+            background: linear-gradient(135deg, #4A5761 0%, #6D7B86 50%, #8A9DA8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 核心決擇高亮顯示框 ( / / 區塊) */
+        .highlight-decision-box {
+            background: rgba(159, 181, 195, 0.15);
+            border-left: 4px solid var(--morandi-5);
+            border-right: 1px solid var(--morandi-2);
+            border-top: 1px solid rgba(191, 204, 212, 0.4);
+            border-bottom: 1px solid rgba(191, 204, 212, 0.4);
+            box-shadow: 0 4px 15px rgba(109, 123, 134, 0.08);
+        }
+
+        /* 自訂莫蘭迪風格按鈕 */
+        .steampunk-btn {
+            background: linear-gradient(135deg, #6D7B86 0%, #8A9DA8 100%);
+            border: 1px solid #8A9DA8;
+            box-shadow: 0 4px 15px rgba(109, 123, 134, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #FFFFFF;
+        }
+        .steampunk-btn:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #5A6873 0%, #788B96 100%);
+            box-shadow: 0 6px 22px rgba(109, 123, 134, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            filter: brightness(1.05);
+        }
+
+        .secondary-btn {
+            background: rgba(191, 204, 212, 0.3);
+            border: 1px solid var(--morandi-4);
+            color: var(--morandi-text-dark);
+            transition: all 0.2s ease;
+        }
+        .secondary-btn:hover {
+            background: rgba(159, 181, 195, 0.45);
+            border-color: var(--morandi-5);
+            transform: translateY(-1px);
+        }
+
+        /* 旋轉齒輪微特效 */
+        @keyframes gearSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .spin-gear {
+            animation: gearSpin 24s linear infinite;
+        }
+
+        /* 捲軸莫蘭迪風格客製化 */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #EDF1F3; }
+        ::-webkit-scrollbar-thumb { background: #9FB5C3; border-radius: 3px; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen relative selection:bg-[#9FB5C3] selection:text-[#37434D]">
+
+    <!-- 頂部導覽 Header (純淨莫蘭迪排版，無 Logo 圖片) -->
+    <header class="w-full py-4 px-6 border-b border-[#BFCCD4]/60 bg-white/60 backdrop-blur-md flex justify-between items-center z-20">
+        <div class="flex items-center gap-3">
+            <i class="fa-solid fa-compass text-[#6D7B86] text-xl spin-gear"></i>
+            <span class="tracking-widest font-bold text-xs md:text-sm text-[#6D7B86] font-mono">EUREKA PHILOSOPHY</span>
+        </div>
+        <div class="text-xs text-[#6D7B86] tracking-wider font-serif hidden md:block">
+            靈魂器物誌 ── 哲學原型思辨
+        </div>
+    </header>
+
+    <!-- 主要內容區 -->
+    <main class="flex-grow flex items-center justify-center p-4 md:p-8 z-10">
+        <div class="max-w-3xl w-full mx-auto">
+
+            <!-- ===================================================================
+                 畫面 1：首頁 (Home View)
+                 =================================================================== -->
+            <section id="screen-home" class="morandi-panel p-6 md:p-12 text-center space-y-8 transition-all duration-500">
+                <!-- 大標題 (無頂部圖片) -->
+                <div class="space-y-4 pt-4">
+                    <h1 class="text-3xl md:text-5xl font-black tracking-widest morandi-title-text leading-tight">
+                        測出你的哲學靈魂
+                    </h1>
+                    <p class="text-base md:text-xl text-[#6D7B86] font-serif tracking-widest font-semibold">
+                        Eureka 靈魂器物誌
+                    </p>
+                </div>
+
+                <!-- 莫蘭迪分割線 -->
+                <div class="flex items-center justify-center gap-4 my-4 opacity-70">
+                    <div class="h-[1px] w-16 md:w-32 bg-gradient-to-r from-transparent to-[#8A9DA8]"></div>
+                    <i class="fa-solid fa-circle-dot text-xs text-[#8A9DA8]"></i>
+                    <div class="h-[1px] w-16 md:w-32 bg-gradient-to-l from-transparent to-[#8A9DA8]"></div>
+                </div>
+
+                <!-- 前言引言 -->
+                <p class="text-sm md:text-base text-[#37434D] leading-relaxed max-w-2xl mx-auto text-justify md:text-center px-2 font-normal">
+                    這是一個繁華似錦的時代，是最好的時代。歷史的浪潮在這裡掀起，強盛的國度隨著舊王的駕崩陷入了渦流，信仰者、啟蒙家、革命人，你的選擇將錨定你的命運。來吧，你要追隨於誰?又要在這盤賭局中下注什麼籌碼?
+                </p>
+
+                <!-- 提示 -->
+                <div class="p-3.5 rounded-xl bg-[#BFCCD4]/30 border border-[#9FB5C3] text-xs text-[#5C6A75] max-w-md mx-auto flex items-center justify-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-sparkles text-[#6D7B86]"></i>
+                    <span>請認真思考每個問題，並選出最符合你內心的回應。</span>
+                </div>
+
+                <!-- 開始按鈕 -->
+                <div class="pt-4">
+                    <button onclick="startQuiz()" class="steampunk-btn px-10 py-4 rounded-xl text-white font-bold tracking-widest text-base md:text-lg w-full sm:w-auto inline-flex items-center justify-center gap-3">
+                        <span>開始洄游</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </section>
+
+
+            <!-- ===================================================================
+                 畫面 2：測驗進行頁 (Quiz View)
+                 =================================================================== -->
+            <section id="screen-quiz" class="morandi-panel p-6 md:p-10 space-y-6 hidden transition-all duration-500">
+                <!-- 進度條與題號 -->
+                <div class="space-y-2 border-b border-[#BFCCD4] pb-4">
+                    <div class="flex justify-between items-center text-xs tracking-wider">
+                        <span id="quiz-progress-text" class="text-[#6D7B86] font-mono font-bold">問題 01 / 07</span>
+                        <span id="quiz-progress-percent" class="text-[#8A9DA8] font-mono">14.3%</span>
+                    </div>
+                    <div class="w-full h-2.5 bg-[#D6DDD9]/60 rounded-full overflow-hidden border border-[#BFCCD4]">
+                        <div id="quiz-progress-bar" class="h-full bg-gradient-to-r from-[#BFCCD4] via-[#9FB5C3] to-[#6D7B86] transition-all duration-300 w-1/7"></div>
+                    </div>
+                </div>
+
+                <!-- 題目內容 -->
+                <div class="space-y-4">
+                    <p id="question-context" class="text-sm md:text-base text-[#37434D] leading-relaxed text-justify">
+                        <!-- 情境故事 -->
+                    </p>
+
+                    <!-- 核心抉擇高亮區塊 (/ / 文字) -->
+                    <div class="highlight-decision-box p-4 md:p-5 rounded-xl space-y-1">
+                        <div class="text-xs text-[#6D7B86] font-bold flex items-center gap-2 mb-1">
+                            <i class="fa-solid fa-circle-nodes"></i>
+                            <span>核心抉擇思辨：</span>
+                        </div>
+                        <p id="question-highlight" class="text-sm md:text-base text-[#2C363E] font-bold leading-relaxed">
+                            <!-- 高亮決擇文字 -->
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 選項按鈕容器 -->
+                <div id="options-container" class="space-y-3 pt-2">
+                    <!-- 選項按鈕由 JavaScript 動態生成 -->
+                </div>
+            </section>
+
+
+            <!-- ===================================================================
+                 畫面 3：測驗結果頁 (Result Screen)
+                 =================================================================== -->
+            <section id="screen-result" class="morandi-panel p-6 md:p-10 space-y-8 hidden transition-all duration-500">
+                <!-- 結果標頭提示 -->
+                <div class="text-center space-y-2">
+                    <h2 class="text-2xl md:text-3xl font-black morandi-title-text">你的哲學靈魂測驗結果</h2>
+                    <p class="text-xs md:text-sm text-[#6D7B86]">長按圖片或點擊下方按鈕即可下載儲存結果圖卡</p>
+                </div>
+
+                <!-- 直接完整呈現您提供的結果圖片 -->
+                <div class="max-w-sm mx-auto shadow-2xl rounded-2xl overflow-hidden border-2 border-[#8A9DA8]/40 bg-[#1C2227] relative group">
+                    <img id="result-image" src="" alt="哲學結果圖卡" class="w-full h-auto block rounded-2xl transition-transform duration-300 group-hover:scale-[1.01]" />
+                </div>
+
+                <!-- 一鍵下載圖片按鈕 -->
+                <div class="max-w-sm mx-auto flex flex-col sm:flex-row gap-3">
+                    <button onclick="downloadResultImage()" class="steampunk-btn flex-1 py-3.5 rounded-xl text-white font-bold text-sm md:text-base flex items-center justify-center gap-2 shadow-lg">
+                        <i class="fa-solid fa-download"></i>📥 下載結果圖片
+                    </button>
+                </div>
+
+                <!-- 雷達圖分析區 -->
+                <div class="space-y-3 pt-2">
+                    <h3 class="text-xs font-bold text-[#6D7B86] text-center uppercase tracking-widest flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-chart-pie"></i>五大倫理學學派得分傾向圖譜
+                    </h3>
+                    <div class="w-full h-64 md:h-72 relative bg-white/70 p-3 rounded-xl border border-[#BFCCD4] shadow-inner">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- 底部動作按鈕區 -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-2">
+                    <button onclick="showIntroPage()" class="steampunk-btn flex-1 py-3.5 rounded-xl text-white font-bold text-sm md:text-base flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-book-open"></i>📖 學派介紹
+                    </button>
+                    <button onclick="restartQuiz()" class="secondary-btn flex-1 py-3.5 rounded-xl text-[#37434D] font-bold text-sm md:text-base flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-rotate-right"></i>🔄 重新測驗
+                    </button>
+                </div>
+            </section>
+
+
+            <!-- ===================================================================
+                 畫面 4：學派介紹頁 (School Intro View)
+                 =================================================================== -->
+            <section id="screen-intro" class="morandi-panel p-6 md:p-10 space-y-8 hidden transition-all duration-500">
+                <!-- 介紹頁 Header -->
+                <div class="text-center space-y-2 border-b border-[#BFCCD4] pb-5">
+                    <h2 class="text-2xl md:text-3xl font-bold morandi-title-text flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-scroll text-[#6D7B86]"></i>五大倫理學學派深度解析
+                    </h2>
+                    <p class="text-xs md:text-sm text-[#6D7B86]">探尋思辨的起源與道德法則的核心</p>
+                </div>
+
+                <!-- 5 大學派完整介紹列表 -->
+                <div class="space-y-6 max-h-[60vh] overflow-y-auto pr-2">
+
+                    <!-- 1. 德性倫理學 -->
+                    <div id="intro-card-virtue" class="p-5 rounded-xl bg-white/70 border border-[#BFCCD4] space-y-3 transition-all">
+                        <div class="flex justify-between items-center border-b border-[#BFCCD4] pb-2">
+                            <h3 class="text-lg font-bold text-[#6D7B86] flex items-center gap-2">
+                                <i class="fa-solid fa-seedling text-[#8A9DA8]"></i>稻 ── 德性倫理學
+                            </h3>
+                            <span class="user-result-badge hidden text-xs bg-[#6D7B86] text-white font-bold px-2.5 py-0.5 rounded-full">★ 您的測驗結果</span>
+                        </div>
+                        <p class="text-xs md:text-sm text-[#37434D] leading-relaxed text-justify">
+                            德性倫理學認為正確的行為，就是有德之人會做出的行為。它關心的不是行為結果，而是「我該成為什麼樣的人」。一個行為是否道德不是從後果來判斷，而是從行為之人內心的德性來判斷。古希臘哲學家亞里士多德提出，人生的最終目的是繁榮的人生狀態（eudaimonia），也就是人之為人應該成為的樣子，而德性就是通往它的道路。德性並非天生，而是在一次次實踐中養成習慣，並藉由實踐智慧在過與不及之間找到「中道」。德性倫理學注重品格，目標就是成為有德之人，並活出良好人生。
+                        </p>
+                    </div>
+
+                    <!-- 2. 效益主義 -->
+                    <div id="intro-card-utilitarianism" class="p-5 rounded-xl bg-white/70 border border-[#BFCCD4] space-y-3 transition-all">
+                        <div class="flex justify-between items-center border-b border-[#BFCCD4] pb-2">
+                            <h3 class="text-lg font-bold text-[#6D7B86] flex items-center gap-2">
+                                <i class="fa-solid fa-scale-balanced text-[#8A9DA8]"></i>天枰balance ── 效益主義
+                            </h3>
+                            <span class="user-result-badge hidden text-xs bg-[#6D7B86] text-white font-bold px-2.5 py-0.5 rounded-full">★ 您的測驗結果</span>
+                        </div>
+                        <p class="text-xs md:text-sm text-[#37434D] leading-relaxed text-justify">
+                            效益主義是一種倫理學理論，認為正確的行為就是對大多數人最快樂的行為。1870年，英國哲學家邊沁出版了《道德與立法原理導輪》，在書中他致力於建立一種萬全法(Pannomion)的全面的法律體系，能夠像是用科學方法的方式去衡量各種社會現象。而他將這套標準稱為功利原理。「功利」英文utitily，也大致可以翻譯成「效益」，所以又稱效益主義。效益主義跟隨人類趨利避害的本性，帶有快樂主義的色彩，大致的原則就是選擇讓大多數人快樂和幸福的行為。
+                        </p>
+                    </div>
+
+                    <!-- 3. 義務論 -->
+                    <div id="intro-card-deontology" class="p-5 rounded-xl bg-white/70 border border-[#BFCCD4] space-y-3 transition-all">
+                        <div class="flex justify-between items-center border-b border-[#BFCCD4] pb-2">
+                            <h3 class="text-lg font-bold text-[#6D7B86] flex items-center gap-2">
+                                <i class="fa-solid fa-compass text-[#8A9DA8]"></i>北極星 ── 義務論
+                            </h3>
+                            <span class="user-result-badge hidden text-xs bg-[#6D7B86] text-white font-bold px-2.5 py-0.5 rounded-full">★ 您的測驗結果</span>
+                        </div>
+                        <p class="text-xs md:text-sm text-[#37434D] leading-relaxed text-justify">
+                            義務論是以道德原則（moral principle）作為核心，加以規定一個道德主體「應該」做出的「正當」的行為，而不是以滿足某些「價值（good）」為行動目標。最常提到的義務論，是康德提出的義務論，其核心概念是定言令式，指無條件的道德命令，分別有以下三種形式：（一）普遍化律則公式，要求行動的原則能夠被普遍接受而不矛盾；（二）人性公式，要求將人類視為目的本身，而不僅僅是達成目的的手段；（三）目的王國公式，要求行動的原則能在理性自律的群體中成為普遍法則。值得注意的是，康德義務論中，有分成完全義務（Perfect duties）和不完全義務（Imperfect duties），前者是指無條件必須遵守的道德義務，後者則是指可根據情境或能力選擇履行的道德義務，例如行善或助人。換句話說，在康德的義務論下，我們不必為了符合道德法則，做超過我們能力的事，重點在於我們仍有自由去選擇要不要做。
+                        </p>
+                    </div>
+
+                    <!-- 4. 列維納斯 -->
+                    <div id="intro-card-levinas" class="p-5 rounded-xl bg-white/70 border border-[#BFCCD4] space-y-3 transition-all">
+                        <div class="flex justify-between items-center border-b border-[#BFCCD4] pb-2">
+                            <h3 class="text-lg font-bold text-[#6D7B86] flex items-center gap-2">
+                                <i class="fa-solid fa-hand-holding-heart text-[#8A9DA8]"></i>斷首的螳螂 ── 列維納斯
+                            </h3>
+                            <span class="user-result-badge hidden text-xs bg-[#6D7B86] text-white font-bold px-2.5 py-0.5 rounded-full">★ 您的測驗結果</span>
+                        </div>
+                        <div class="text-xs md:text-sm text-[#37434D] leading-relaxed text-justify space-y-2">
+                            <p>必須承認，這份測驗將列維納斯（Emmanuel Levinas, 1906–1995）的倫理學當作一個選項，對其思想有不少的簡化與壓縮，甚至可能有所曲解。理由是列氏倫理學本就和義務論、效益主義等傳統的規範倫理學有根本上的差異。不過，若放在一個極廣泛的倫理學框架下，列維納斯仍然可以作為一個可能的選項呈現，一個較為曖昧，卻具某種魅力的答案。</p>
+                            <p>如上述所言，列氏倫理學相較傳統的規範倫理學的根本差異在於：後者的目標是提供行為對錯的判準，解釋什麼是對（善）、什麼是錯（惡），而且這些判準應具有普遍、一般、不偏私的特性。然而，列維納斯對倫理學的理解始於對傳統存有學的批判，他拒絕只將倫理學視為哲學的一門分支，而是視之為第一哲學，著重在存有活動中自我與他者的交會，以及相應產生的倫理關係之分析，正如他自己所言：「我的任務不是去建構倫理學；我只是要找出它的意義」。</p>
+                            <p>「責任」一詞代表主體是作為一個「要對什麼負責的」主體。對列維納斯而言，主體並不是主動地去感知、獨我地掌握外在的世界，而是被動地被他者所觸動，接著開始活動。這種觸動不僅是對主體感受性的侵襲，還是一種要求回應的呼喚。因此，回應他者的責任先於我的自由，是一份極度不對稱且強加於我的責任。當主體承認自身面對他者時展現的脆弱，接受自己總是不斷地朝向他者，並主動地承擔責任時，就能在回應中形塑自身的獨特性，也在其中揭露「善」的意義。</p>
+                        </div>
+                    </div>
+
+                    <!-- 5. 道德文化相對主義 -->
+                    <div id="intro-card-relativism" class="p-5 rounded-xl bg-white/70 border border-[#BFCCD4] space-y-3 transition-all">
+                        <div class="flex justify-between items-center border-b border-[#BFCCD4] pb-2">
+                            <h3 class="text-lg font-bold text-[#6D7B86] flex items-center gap-2">
+                                <i class="fa-solid fa-masks-theater text-[#8A9DA8]"></i>變色龍 ── 道德文化相對主義
+                            </h3>
+                            <span class="user-result-badge hidden text-xs bg-[#6D7B86] text-white font-bold px-2.5 py-0.5 rounded-full">★ 您的測驗結果</span>
+                        </div>
+                        <p class="text-xs md:text-sm text-[#37434D] leading-relaxed text-justify">
+                            「對」與「錯」沒有放諸四海皆準的標準，而是由一個社群在特定時代共同認可的規範所決定。 它問的是「這個社群怎麼看？」 就如同語言，沒有哪種語言天生「更正確」，說得對不對，要看這個社群怎麼說。道德也是如此，某個時代可能將「為國犧牲 」視為光榮；但在今天，我們更強調個人權利。兩者並非一個進步、一個落後，只是各自的文化所共同認定的「應該」不同。
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- 導覽雙按鈕 (左: 回上頁, 右: 重新測驗) -->
+                <div class="flex justify-between items-center gap-4 pt-4 border-t border-[#BFCCD4]">
+                    <button onclick="backToResult()" class="secondary-btn px-6 py-3 rounded-xl text-[#37434D] font-bold text-xs md:text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i>⬅️ 回上頁
+                    </button>
+                    <button onclick="restartQuiz()" class="steampunk-btn px-6 py-3 rounded-xl text-white font-bold text-xs md:text-sm flex items-center gap-2">
+                        🔄 重新測驗<i class="fa-solid fa-rotate-right"></i>
+                    </button>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- JavaScript 邏輯引擎 -->
+    <script>
+        /* ==========================================================================
+           1. 7 道題目數據定義 (quizQuestions)
+           ========================================================================== */
+        const quizQuestions = [
+            {
+                id: 1,
+                context: "你乘坐列車進入了這個強盛的國度，走在朝陽下金黃色的月台上，你貪婪的呼吸著，試圖藉此彌補長期睡眠不足的疲憊感。突然一陣刺耳的轟鳴聲打破了早晨的靜好，尖叫聲嘈雜的刺入你的思緒，你回頭發現下一班的列車正高速向月台衝來……你的手邊正好是控制鐵軌的拉桿，震顫的心跳充斥你的胸膛，你知道該做出選擇：",
+                highlight: "拉下拉桿會使列車轉向，駛向僅有一個巡軌員的機房；若是列車沒有轉向則會衝上有十數人在的月台。",
+                options: [
+                    { label: "A", school: "utilitarianism", text: "我會拉下拉桿，因為十數人明顯大於一個人的生命。" },
+                    { label: "B", school: "deontology", text: "我不會拉下拉桿，一個人的命也是命。" },
+                    { label: "C", school: "relativism", text: "我會拉下拉桿。在這個時代，國家存亡高於一切，個人理當為群體犧牲，這是眾人公認的道理。" },
+                    { label: "D", school: "levinas", text: "我把手放上拉桿，感受到周圍人們活生生的存在。我會做出選擇，並承擔接下來的所有責任。" },
+                    { label: "E", school: "virtue", text: "我景仰的對象會拉下拉桿，我就會拉下拉桿，反之亦然。" }
+                ]
+            },
+            {
+                id: 2,
+                context: "離你進入這個國度已經有了一段時間，你慢慢地習慣於這個城市的繁榮，雖然偶爾還是會驚艷於那些匪夷所思的科技奇蹟，但你開始腳踏實地的尋思生存的問題。你租了一間小套房，找了份報社的工作。這天你在上班途中路過一個公園的水塘，突然聽見了有人大聲呼救，你看見一個兒童在池裡溺水了，雖然去救他會讓你身體溼掉或上班遲到，但你仍奮不顧身的去救他。",
+                highlight: "那如果現在在遙遠的異邦有一個同樣的兒童，他的生命也受即刻威脅。雖然你看不到他，你們之中還隔了一大段距離，但你也應該馬上去救他嗎？",
+                options: [
+                    { label: "A", school: "virtue", text: "如果身為有德之人的慈善家也這麼做，我就該這麼做，不會只因受助者離自己遙遠就漠不關心。" },
+                    { label: "B", school: "utilitarianism", text: "如果能以較小的利益防止重大的苦難，我們應該立刻就去做。我應該把我的存款捐給遙遠異邦的基金會救災。" },
+                    { label: "C", school: "levinas", text: "無論是溺水或身在異邦的兒童，我都有回應他們的責任。" },
+                    { label: "D", school: "deontology", text: "我不會去救他，但這不違反道德，畢竟我的能力和處境有極限。" },
+                    { label: "E", school: "relativism", text: "我不會立刻去救他。在這個時代，人們公認的責任是由近及遠：先對眼前的人、家人、鄉里，再到國家同胞。" }
+                ]
+            },
+            {
+                id: 3,
+                context: "你在報社兢兢業業的努力著，漸漸地熟悉了所有的流程與技能，也開始熱愛這份為人民發聲、為大眾弭平資訊差的工作。這天你接到了一個案子，是調查關於一間公司：他們聲稱能提供跨維度旅行服務，顧客可以前往任何維度的世界，你可以前往如中世紀的劍與魔法的世界，體驗英雄的冒險旅程、探索未知的文明，甚至獲得經濟利益。這是完全真實的世界，而顧客無須為當地居民或社會負一切責任，只需要體驗就好。你試圖站在消費者的角度思考這個問題。",
+                highlight: "如果你選擇購買此項服務，那在沒有傷害任何人的情況下，是否代表沒有做錯事？如果這套服務本身就是不公的，又是否該拒絕參與？即使拒絕參與服務仍會提供，那選擇退出後，還有什麼道德責任存在？",
+                options: [
+                    { label: "A", school: "relativism", text: "我會拒絕購買，並在報導中揭露這項服務。在這個時代，眾人公認「己所不欲，勿施於人」，應視異界居民為與我們同樣的人。" },
+                    { label: "B", school: "deontology", text: "我不支持這項服務，不公的事情就是該反對，而退出後我會力所能及的發聲。" },
+                    { label: "C", school: "levinas", text: "無論是哪個世界的居民，這項服務直接或間接造成的不幸，仍然是我的責任，我必須訴諸正義，設法讓它停止。" },
+                    { label: "D", school: "utilitarianism", text: "道德不在於是否參與，而在於後果；若退出無法減少傷害，便應尋求更有效的改革方式，以增進整體福祉。" },
+                    { label: "E", school: "virtue", text: "真正有德性的人，不只避免傷害，更會反省自身欲望；即使退出無法改變制度，也不應讓自己習慣漠視不義。" }
+                ]
+            },
+            {
+                id: 4,
+                context: "你意外獲得了一枚特別的戒指，戴上它後能夠完全隱形並不會被發現，正好你最近擬在蒐集報導資料上遇到了很大的瓶頸。若是戴上這枚戒指你蒐集的過程將變得一帆風順，再也沒有甚麼能阻止你與限制你。你可以變得成功、獲得名氣與權力。",
+                highlight: "你在猶豫是否要戴上戒指，是否順從自己的慾望藉此改變人生。",
+                options: [
+                    { label: "A", school: "levinas", text: "戴上戒指雖能隱蔽自我、逃避監督跟責罰，但責任依然存在。" },
+                    { label: "B", school: "utilitarianism", text: "為了整體社會福祉或對抗外部強敵我會戴上戒指。比如說用來竊取政府剝削人民的機密，揭開社會黑幕，使人類社會產生更多福祉。" },
+                    { label: "C", school: "virtue", text: "即使沒有人能發現，我仍會思考自己的行為會把我塑造成什麼樣的人。我的德性不依賴懲罰或他人的目光，而是在於我自己是否真正把我視為一個有德之人，並打從心底的想要實踐。" },
+                    { label: "D", school: "deontology", text: "我不會戴上這枚戒指，就算結果是好的，手段不正當就是不行。" },
+                    { label: "E", school: "relativism", text: "我不會戴上戒指。在這個時代，報人被公認要「為民喉舌、光明磊落」，若憑隱形偷取資料、謀取名利，即使無人知曉，也是失了本分。" }
+                ]
+            },
+            {
+                id: 5,
+                context: "某個月黑風高的午夜，你被窗外傳來的尖叫聲跟碰撞聲驚醒，打開窗簾往樓下一看，你看見有個黑影手持刀具，正在跟另一個一邊按著腰部一邊不斷呼救的人對峙。抬頭一看，其他公寓住戶的窗也逐漸亮起了燈。",
+                highlight: "根據過往的經驗，報警後救援也需要一段時間，自己也缺乏制服他人的能力跟自信，可是受傷的人又能撐多久呢？萬一除了自己，沒有人要去幫忙呢？時間故我地流逝，那麼...接下來你該怎麼做呢?",
+                options: [
+                    { label: "A", school: "deontology", text: "我立刻義無反顧的去拯救他，因為我不想生活在一個沒有人願意伸出援手的世界。" },
+                    { label: "B", school: "virtue", text: "勇敢不等於不顧一切地衝上前，而是在恐懼中做出適當的判斷。我會看情況判斷什麼事我能做的，思考我認為的有德之人會怎麼做，並在能力所及的範圍內救助傷者。" },
+                    { label: "C", school: "relativism", text: "我會立刻報警，並大聲呼喊、開窗示警，嚇阻歹徒。在這個社會當中，我的本分應是盡己所能求援、喚醒鄰人一同行動，而非逞英雄。" },
+                    { label: "D", school: "utilitarianism", text: "如果我有自信可以以我的霹靂防身術制服歹徒並拯救一個人，那我應該去做，但以防成為陪葬品，我還是要適時撤退。" },
+                    { label: "E", school: "levinas", text: "或許不只我被吵醒，但即使我手無縛雞之力，能做的只有大聲亂叫、報警、叫醒鄰居，我也絕不能把自己當成旁觀者。" }
+                ]
+            },
+            {
+                id: 6,
+                context: "你意外的和那晚救下的人成為了好友，他和你一樣有著熱血與抱負，在你的勸說下他也加入了報社，與你一同為揭開社會的黑暗面而努力著。有天夜晚，幾位帶武器的侍衛暴力的敲開了你的房門，他們出示了證件證明身分、並拿著你好友的照片逼問你是否知道他的去向。",
+                highlight: "你不知道你的好友做了甚麼，侍衛們沒有向你透漏任何消息，在他們的催促下你必須得盡快做出選擇。",
+                options: [
+                    { label: "A", school: "utilitarianism", text: "我應該隱匿好友、甚至誤導侍衛。因為這樣能保護一個人的性命，增加更多效益的產生。" },
+                    { label: "B", school: "virtue", text: "我會選擇保護好友，因為我內心中的德性不是固定的，而是一個結合情景與實踐的選擇。我會透過我的衡量與理性思考，做出我認為真正的道德之事。" },
+                    { label: "C", school: "levinas", text: "政府的法規、官兵的追問固然重要，但一旦交出他，我便成為他受難的共犯。" },
+                    { label: "D", school: "relativism", text: "我不會說出他的去向。在這個社會上，報人被期待不畏強權、為民發聲，出賣摯友者為眾人所鄙。" },
+                    { label: "E", school: "deontology", text: "我誠實向侍衛告發好友，因為藏匿好友意味著我必須說謊，而「說謊」在任何時候都是不道德的。" }
+                ]
+            },
+            {
+                id: 7,
+                context: "你報社的好友終究還是被抓捕了，你想起曾經你們一起懷抱的夢想、想起你們促膝長談的那些夜晚，你猶豫了，你開始懷疑你們所做的是否是正確的。在心灰意冷下你聽說了某種薩滿儀式，它能讓你陷入永無止境的幻覺與夢境，在幻覺裡你的感官完全真實，能在其中體驗成功與極致的幸福。",
+                highlight: "你在猶豫是否要透過薩滿儀式尋求幸福，畢竟在現實世界裡你遇到了太多的挫折與疑惑。",
+                options: [
+                    { label: "A", school: "utilitarianism", text: "如果我在夢境中獲得的幸福與成功，不會在現實世界中因為我所拋棄的責任導致他人不快或痛苦，那我會透過薩滿儀式尋求幸福。" },
+                    { label: "B", school: "deontology", text: "我不會選擇薩滿儀式，我還有義務完成現實中的理想。" },
+                    { label: "C", school: "levinas", text: "這種幸福能帶給我快樂，卻無法帶給我「意義」。" },
+                    { label: "D", school: "relativism", text: "我不會接受這項儀式。人們公認有志之士當「入世擔當」，不可遁入虛幻自慰；沉溺夢境、棄朋友與天下於不顧，會被視為怯懦逃避。" },
+                    { label: "E", school: "virtue", text: "幸福不只是感受到愉悅，更在於我是否運用了我的理性實踐道德，活出了人類應活出的人生。如果幻覺與夢境使我放棄這些實踐，即使感到愉悅，也未必是真正的圓滿人生。" }
+                ]
+            }
+        ];
+
+        /* ==========================================================================
+           2. 5 大學派結果定義 (直接對應您提供的 5 張圖片檔名)
+           ========================================================================== */
+        const schoolResults = {
+            relativism: {
+                key: "relativism",
+                cardId: "intro-card-relativism",
+                title: "變色龍",
+                schoolName: "道德文化相對主義",
+                image: "./變色龍.jpg"
+            },
+            utilitarianism: {
+                key: "utilitarianism",
+                cardId: "intro-card-utilitarianism",
+                title: "天秤",
+                schoolName: "效益主義",
+                image: "./天平.jpg"
+            },
+            deontology: {
+                key: "deontology",
+                cardId: "intro-card-deontology",
+                title: "北極星",
+                schoolName: "義務論",
+                image: "./北極星.jpg"
+            },
+            levinas: {
+                key: "levinas",
+                cardId: "intro-card-levinas",
+                title: "斷首的螳螂",
+                schoolName: "列維納斯",
+                image: "./斷首的螳螂.jpg"
+            },
+            virtue: {
+                key: "virtue",
+                cardId: "intro-card-virtue",
+                title: "稻",
+                schoolName: "德性倫理學",
+                image: "./稻.jpg"
+            }
+        };
+
+        /* ==========================================================================
+           3. 全局變數
+           ========================================================================== */
+        let currentQuestionIndex = 0;
+        let schoolScores = {
+            virtue: 0,
+            utilitarianism: 0,
+            deontology: 0,
+            levinas: 0,
+            relativism: 0
+        };
+        let userResultKey = null;
+        let radarChartInstance = null;
+
+        /* ==========================================================================
+           4. 測驗控制與渲染邏輯
+           ========================================================================== */
+        
+        function startQuiz() {
+            // 重置分數
+            for (let s in schoolScores) schoolScores[s] = 0;
+            currentQuestionIndex = 0;
+
+            document.getElementById('screen-home').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = quizQuestions[currentQuestionIndex];
+            const total = quizQuestions.length;
+
+            // 更新頁頭進度
+            document.getElementById('quiz-progress-text').innerText = `問題 ${String(q.id).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+            const percent = ((currentQuestionIndex + 1) / total) * 100;
+            document.getElementById('quiz-progress-percent').innerText = `${percent.toFixed(1)}%`;
+            document.getElementById('quiz-progress-bar').style.width = `${percent}%`;
+
+            // 內文與高亮核心問題
+            document.getElementById('question-context').innerText = q.context;
+            document.getElementById('question-highlight').innerText = q.highlight;
+
+            // 生成 5 個選項
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            q.options.forEach((opt) => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full p-4 bg-white/90 hover:bg-[#BFCCD4]/30 border border-[#BFCCD4] hover:border-[#6D7B86] rounded-xl text-left flex items-start gap-3.5 text-xs md:text-sm text-[#37434D] transition-all duration-200 shadow-sm group';
+                btn.onclick = () => chooseOption(opt.school);
+
+                btn.innerHTML = `
+                    <span class="w-6 h-6 rounded-lg bg-[#9FB5C3]/40 border border-[#8A9DA8] text-[#37434D] font-bold flex items-center justify-center text-xs shrink-0 mt-0.5 group-hover:bg-[#6D7B86] group-hover:text-white transition-colors font-mono">${opt.label}</span>
+                    <span class="leading-relaxed flex-grow text-[#37434D] group-hover:text-[#2C363E] font-medium">${opt.text}</span>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function chooseOption(schoolKey) {
+            if (schoolScores.hasOwnProperty(schoolKey)) {
+                schoolScores[schoolKey] += 1;
+            }
+
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizQuestions.length) {
+                renderQuestion();
+            } else {
+                calculateAndShowResult();
+            }
+        }
+
+        function calculateAndShowResult() {
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-result').classList.remove('hidden');
+
+            // 計算最高分數的學派
+            let maxScore = -1;
+            let winningSchool = 'virtue';
+
+            for (let key in schoolScores) {
+                if (schoolScores[key] > maxScore) {
+                    maxScore = schoolScores[key];
+                    winningSchool = key;
+                }
+            }
+
+            userResultKey = winningSchool;
+            const res = schoolResults[winningSchool];
+
+            // 直接展示您提供的完整原圖
+            const imgEl = document.getElementById('result-image');
+            imgEl.src = res.image;
+
+            // 繪製莫蘭迪色系雷達圖
+            renderRadarChart();
+        }
+
+        // 下載結果圖片功能
+        function downloadResultImage() {
+            if (!userResultKey || !schoolResults[userResultKey]) return;
+            const res = schoolResults[userResultKey];
+            const link = document.createElement('a');
+            link.href = res.image;
+            link.download = `${res.title}_${res.schoolName}_測驗結果.jpg`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        /* ==========================================================================
+           5. 莫蘭迪雷達圖繪製 (Chart.js)
+           ========================================================================== */
+        function renderRadarChart() {
+            const ctx = document.getElementById('radarChart').getContext('2d');
+
+            if (radarChartInstance) {
+                radarChartInstance.destroy();
+            }
+
+            radarChartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['德性倫理學', '效益主義', '義務論', '列維納斯', '道德文化相對主義'],
+                    datasets: [{
+                        label: '得分數',
+                        data: [
+                            schoolScores.virtue,
+                            schoolScores.utilitarianism,
+                            schoolScores.deontology,
+                            schoolScores.levinas,
+                            schoolScores.relativism
+                        ],
+                        backgroundColor: 'rgba(159, 181, 195, 0.35)', // #9FB5C3
+                        borderColor: '#6D7B86',                       // #6D7B86
+                        borderWidth: 2,
+                        pointBackgroundColor: '#BFCCD4',              // #BFCCD4
+                        pointBorderColor: '#6D7B86',                  // #6D7B86
+                        pointHoverBackgroundColor: '#FFFFFF',
+                        pointHoverBorderColor: '#6D7B86'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            min: 0,
+                            max: 7,
+                            ticks: { display: false, stepSize: 1 },
+                            angleLines: { color: 'rgba(138, 157, 168, 0.4)' },
+                            grid: { color: 'rgba(214, 221, 217, 0.6)' },
+                            pointLabels: {
+                                color: '#4A5761',
+                                font: { size: 12, family: 'Noto Serif TC', weight: 'bold' }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        /* ==========================================================================
+           6. 學派介紹頁與導覽
+           ========================================================================== */
+        function showIntroPage() {
+            document.getElementById('screen-result').classList.add('hidden');
+            document.getElementById('screen-intro').classList.remove('hidden');
+
+            // 移除舊的高亮標記
+            document.querySelectorAll('#screen-intro [id^="intro-card-"]').forEach(card => {
+                card.classList.remove('border-[#6D7B86]', 'bg-[#BFCCD4]/30', 'shadow-[0_0_20px_rgba(109,123,134,0.15)]');
+                card.classList.add('border-[#BFCCD4]', 'bg-white/70');
+                const badge = card.querySelector('.user-result-badge');
+                if (badge) badge.classList.add('hidden');
+            });
+
+            // 為測驗結果學派加上高亮
+            if (userResultKey && schoolResults[userResultKey]) {
+                const targetCardId = schoolResults[userResultKey].cardId;
+                const targetCard = document.getElementById(targetCardId);
+                if (targetCard) {
+                    targetCard.classList.remove('border-[#BFCCD4]', 'bg-white/70');
+                    targetCard.classList.add('border-[#6D7B86]', 'bg-[#BFCCD4]/30', 'shadow-[0_0_20px_rgba(109,123,134,0.15)]');
+                    const badge = targetCard.querySelector('.user-result-badge');
+                    if (badge) badge.classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 200);
+                }
+            }
+        }
+
+        function backToResult() {
+            document.getElementById('screen-intro').classList.add('hidden');
+            document.getElementById('screen-result').classList.remove('hidden');
+        }
+
+        function restartQuiz() {
+            document.getElementById('screen-result').classList.add('hidden');
+            document.getElementById('screen-intro').classList.add('hidden');
+            document.getElementById('screen-home').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
